@@ -20,7 +20,7 @@ struct ContentView: View {
     @State private var Statement : String = ""
     @State private var showingScore = false
     @State private var scoreTitle = ""
-    
+    //
     
     var body: some View {
         ZStack{
