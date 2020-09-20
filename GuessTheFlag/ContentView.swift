@@ -62,7 +62,7 @@ struct ContentView: View {
             Statement = "yes, it was \(countries[number])"
         }else {
             scoreTitle = "Wrong"
-            Statement = "No, it was \(countries[number])"
+            Statement = "No, it was \(countries[correctAnswer])"
         }
         showingScore = true
     }
