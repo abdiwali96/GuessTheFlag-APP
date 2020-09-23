@@ -7,6 +7,9 @@
 
 import SwiftUI
 
+
+
+
 struct ContentView: View {
     
     @State private var  showingAlert = false
@@ -16,7 +19,10 @@ struct ContentView: View {
     @State private var Statement : String = ""
     @State private var showingScore = false
     @State private var scoreTitle = ""
+    @State private var spin = false
+    @State private var fadeOut = false
     
+  
     var body: some View {
         ZStack{
             LinearGradient(gradient: /*@START_MENU_TOKEN@*/Gradient(colors: [Color.red, Color.blue])/*@END_MENU_TOKEN@*/, startPoint: .top, endPoint: .bottom)
@@ -37,11 +43,16 @@ struct ContentView: View {
                     Button (action: {
                         self.flagTapped(number)
                     }) {
-                        Image(self.countries[number])
-                            .renderingMode(.original)
-                            .clipShape(Capsule())
-                            .overlay(Capsule().stroke(Color.black, lineWidth: 1))
-                            .shadow(color: .black, radius:5)
+                        if number == correctAnswer {
+                            Image(self.countries[correctAnswer])
+                                .imageIconModifier()
+                                .rotationEffect(Angle.degrees(spin ? 360 : 0))
+                                .animation(.easeOut)
+                        }else {
+                            Image(self.countries[number])
+                                .imageIconModifier()
+                        }
+                       
                     }
                 }
                 Text("SCORE: \(Score)")
@@ -55,22 +66,41 @@ struct ContentView: View {
             })
         }
     }
+    
+    
     func flagTapped (_ number: Int) {
         if number == correctAnswer {
             scoreTitle = "Correct"
             self.Score += 1
+            self.spin.toggle()
             Statement = "yes, it was \(countries[number])"
         }else {
+            self.fadeOut.toggle()
             scoreTitle = "Wrong"
             Statement = "No, it was \(countries[correctAnswer])"
         }
         showingScore = true
     }
+    
     func askQuestion() {
         countries.shuffle()
         correctAnswer = Int.random(in: 0...2)
     }
+    
+
 }
+
+extension Image {
+    
+    func imageIconModifier() -> some View {
+        self
+            .renderingMode(.original)
+            .clipShape(Capsule())
+            .overlay(Capsule().stroke(Color.black, lineWidth: 1))
+            .shadow(color: .black, radius:5)
+    }
+}
+
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
