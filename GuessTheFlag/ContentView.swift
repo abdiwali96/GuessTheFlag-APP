@@ -53,7 +53,7 @@ struct ContentView: View {
                                 .imageIconModifier()
                         }
                        
-                    }
+                    }//
                 }
                 Text("SCORE: \(Score)")
                     .foregroundColor(.white)
